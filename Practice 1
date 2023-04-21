@@ -1,0 +1,32 @@
+
+Q1.	Write a query to show the category with the greatest number of books. (For Example: There are different category of books like JAVA, PYTHON, C# )
+
+Select Category as bookno from (Select Category, Count(Book_title) as NoofBooks, dense_rank() over (Order By Count(*) DESC) as Highestbookcategory
+from lms_book_details
+Group By Category) as Temptable where Highestbookcategory=1;
+
+
+Q2. Write a query to show this output. List of the books that are available in library and never issued (Hint : use join function and case function)
+
+Select bd.Book_code, Book_title, case when Date_issue is NULL then 'Yes'
+when Date_Issue is not null then 'NO' end as Availability_Status
+From
+lms_book_details as bd left join lms_book_issue as BI on bd.Book_code = BI.Book_code
+Having Availability_Status = "yes" ;
+ 
+
+Q3.	Write a query to count the number of permanent members vs temporary members.
+
+Select Membership_Status, Count(Membership_Status) as MemStatus
+from lms_1
+group by Membership_Status;
+
+Q4.	Write a query to display the average price of different book categories.
+
+select Category, avg(price) as averageprice from lms_book_details
+Group by Category;
+
+Q5.	Write a query to display the total ﬁne amount paid by all members
+
+Select Sum(Fine_amount) as TotalFine
+From lms_book_issue as BI inner join lms_ﬁne_details as FD on BI.ﬁne_range = FD.ﬁne_range;
