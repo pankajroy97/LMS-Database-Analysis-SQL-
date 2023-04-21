@@ -1,0 +1,23 @@
+Q1.Write a query to display total ﬁne amount paid by members (select Member_ID, Member_Name, City, Membership_status, Fine amount)
+
+SELECT m.MEMBER_ID, m.MEMBER_NAME,
+m.CITY,m.membership_status, SUM(f.FINE_AMOUNT) AS Fine FROM LMS_1 m JOIN
+LMS_BOOK_ISSUE i ON m.MEMBER_ID = i.MEMBER_ID JOIN
+LMS_FINE_DETAILS f ON i.FINE_RANGE = f.FINE_RANGE GROUP BY m.MEMBER_ID, m.MEMBER_NAME,
+m.CITY,m.membership_status;
+
+
+Q2.	Write a query to display the members who have issued more than 4 books. (Select member ID, member name and count of books)
+
+Select Member_Name, Count(book_code) as Noofbooks from
+LMS_1 as MEM inner join LMS_book_issue as BI on MEM.Member_ID = BI.Member_ID
+Group By Member_name Having Noofbooks > 4;
+ 
+
+Q3.	Write a query to display the book_code from lms_book details table, Book_title, Date_issue from lms_book_issue. If date_issue is null then display "No" else display "Yes" with alias Availability Status.
+
+Select bd.Book_code, Book_title, case when Date_issue is NULL then 'Yes'
+when Date_Issue is not null then 'NO' end as Availability_Status
+From
+lms_book_details as bd left join lms_book_issue as BI on bd.Book_code = BI.Book_code
+Having Availability_Status = "yes" ;
